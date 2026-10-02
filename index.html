@@ -7,10 +7,10 @@
   <title>CurioPlay — Explore Beyond the Ordinary</title>
   <meta name="description" content="CurioPlay is a digital playground of interactive simulators, educational games and coding experiences. Learn it. Play it. Experience it." />
   <meta name="theme-color" content="#071a2e" />
-  <link rel="icon" href="/curioplay/favicon.ico?v=2" sizes="any" />
-  <link rel="icon" type="image/png" sizes="192x192" href="/curioplay/favicon.png?v=2" />
-  <link rel="apple-touch-icon" href="/curioplay/icons/apple-touch-icon.png?v=2" />
-  <link rel="manifest" href="/curioplay/manifest.webmanifest" />
+  <link rel="icon" href="/CurioPlay/favicon.ico?v=2" sizes="any" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/CurioPlay/favicon.png?v=2" />
+  <link rel="apple-touch-icon" href="/CurioPlay/icons/apple-touch-icon.png?v=2" />
+  <link rel="manifest" href="/CurioPlay/manifest.webmanifest" />
   <script>
     (function () {
       try {
@@ -24,16 +24,20 @@
   </script>
 
   <script>
+    // GitHub Pages SPA fallback, part 2 (part 1 is public/404.html). 404.html rewrites an unknown deep link such as
+    //   /CurioPlay/dashboard?tab=games&focus=1   into   /CurioPlay/?/dashboard&tab=games~and~focus=1
+    // and this restores the real URL before the router starts. The single "&" that separates path from query becomes
+    // "?" again; every "&" that belonged to the query itself was escaped as "~and~" and is unescaped here.
     (function (l) {
       if (l.search[1] === "/") {
-        var decoded = l.search
+        var parts = l.search
           .slice(1)
-          .replace(/~and~/g, "&");
-
+          .split("&")
+          .map(function (s) { return s.replace(/~and~/g, "&"); });
         window.history.replaceState(
           null,
           null,
-          l.pathname.slice(0, -1) + decoded + l.hash
+          l.pathname.slice(0, -1) + parts.join("?") + l.hash
         );
       }
     })(window.location);
@@ -49,17 +53,17 @@
     @keyframes cp-breathe { 50% { transform: scale(1.05); } }
     @media (prefers-reduced-motion: reduce) { .cp-boot * { animation: none !important; } }
   </style>
-  <script type="module" crossorigin src="/curioplay/assets/index-BruoYeHR.js"></script>
-  <link rel="modulepreload" crossorigin href="/curioplay/assets/query-U_jmJRBu.js">
-  <link rel="modulepreload" crossorigin href="/curioplay/assets/react-D70bpIHR.js">
-  <link rel="modulepreload" crossorigin href="/curioplay/assets/motion-BtU5Bk4N.js">
-  <link rel="stylesheet" crossorigin href="/curioplay/assets/index-BPLqqR-N.css">
+  <script type="module" crossorigin src="/CurioPlay/assets/index-DH9-834e.js"></script>
+  <link rel="modulepreload" crossorigin href="/CurioPlay/assets/query-U_jmJRBu.js">
+  <link rel="modulepreload" crossorigin href="/CurioPlay/assets/react-D70bpIHR.js">
+  <link rel="modulepreload" crossorigin href="/CurioPlay/assets/motion-BtU5Bk4N.js">
+  <link rel="stylesheet" crossorigin href="/CurioPlay/assets/index-DJYMxZ2Q.css">
 </head>
 
 <body>
   <div id="root">
     <div class="cp-boot" role="status" aria-label="Loading CurioPlay">
-      <img src="/curioplay/logo.webp" alt="" width="640" height="456" />
+      <img src="/CurioPlay/logo.webp" alt="" width="640" height="456" />
     </div>
   </div>
 </body>
