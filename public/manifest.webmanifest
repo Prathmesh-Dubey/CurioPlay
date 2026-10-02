@@ -1,0 +1,19 @@
+{
+  "name": "CurioPlay",
+  "short_name": "CurioPlay",
+  "description": "Explore beyond the ordinary. Interactive simulators, games and coding experiences.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#071a2e",
+  "theme_color": "#071a2e",
+  "icons": [
+    { "src": "icons/icon-48.png", "type": "image/png", "sizes": "48x48" },
+    { "src": "icons/icon-72.png", "type": "image/png", "sizes": "72x72" },
+    { "src": "icons/icon-96.png", "type": "image/png", "sizes": "96x96" },
+    { "src": "icons/icon-128.png", "type": "image/png", "sizes": "128x128" },
+    { "src": "icons/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any maskable" },
+    { "src": "icons/icon-256.png", "type": "image/png", "sizes": "256x256" },
+    { "src": "icons/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ]
+}

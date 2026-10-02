@@ -1,0 +1,6 @@
+{
+  "name": "CurioPlay Dashboard",
+  "description": "A complete gaming hub with interactive arcade games, player profiles, real-time leaderboard scores, dynamic achievements, session tracking, and support for dynamically loading custom games via single-file TSX uploads.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
