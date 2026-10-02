@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>CurioPlay — Explore Beyond the Ordinary</title>
+  <meta name="description" content="CurioPlay is a digital playground of interactive simulators, educational games and coding experiences. Learn it. Play it. Experience it." />
+  <meta name="theme-color" content="#071a2e" />
+  <link rel="icon" href="/curioplay/favicon.ico?v=2" sizes="any" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/curioplay/favicon.png?v=2" />
+  <link rel="apple-touch-icon" href="/curioplay/icons/apple-touch-icon.png?v=2" />
+  <link rel="manifest" href="/curioplay/manifest.webmanifest" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        var dark = t === "light" ? false : t === "system" ? window.matchMedia("(prefers-color-scheme: dark)").matches : true;
+        if (dark) document.documentElement.classList.add("dark");
+      } catch (e) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+
+  <script>
+    (function (l) {
+      if (l.search[1] === "/") {
+        var decoded = l.search
+          .slice(1)
+          .replace(/~and~/g, "&");
+
+        window.history.replaceState(
+          null,
+          null,
+          l.pathname.slice(0, -1) + decoded + l.hash
+        );
+      }
+    })(window.location);
+  </script>
+
+  <!-- Pre-React boot loader: paints instantly, is replaced as soon as React mounts. -->
+  <style>
+    html, body { margin: 0; background: var(--cp-canvas, #f5f8fc); }
+    html.dark, html.dark body { background: var(--cp-canvas, #071a2e); }
+    .cp-boot { position: fixed; inset: 0; display: grid; place-items: center; background: #f5f8fc; }
+    html.dark .cp-boot { background: #071a2e; }
+    .cp-boot img { width: 200px; height: auto; animation: cp-breathe 1.6s ease-in-out infinite; }
+    @keyframes cp-breathe { 50% { transform: scale(1.05); } }
+    @media (prefers-reduced-motion: reduce) { .cp-boot * { animation: none !important; } }
+  </style>
+  <script type="module" crossorigin src="/curioplay/assets/index-BruoYeHR.js"></script>
+  <link rel="modulepreload" crossorigin href="/curioplay/assets/query-U_jmJRBu.js">
+  <link rel="modulepreload" crossorigin href="/curioplay/assets/react-D70bpIHR.js">
+  <link rel="modulepreload" crossorigin href="/curioplay/assets/motion-BtU5Bk4N.js">
+  <link rel="stylesheet" crossorigin href="/curioplay/assets/index-BPLqqR-N.css">
+</head>
+
+<body>
+  <div id="root">
+    <div class="cp-boot" role="status" aria-label="Loading CurioPlay">
+      <img src="/curioplay/logo.webp" alt="" width="640" height="456" />
+    </div>
+  </div>
+</body>
+
+</html>
