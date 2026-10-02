@@ -67,7 +67,7 @@ const SORT_OPTIONS: SelectOption<SortMode>[] = [
 const MARQUEE_GRID =
   'grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] xl:grid-rows-2';
 /** Masonry wall: two pins on a phone, up to five on wide screens (columns stay ~200–300px wide). */
-const COLLECTION_GRID = cn(MASONRY_GRID, 'grid-cols-2 gap-x-3 sm:gap-x-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-5 xl:grid-cols-5');
+const COLLECTION_GRID = cn(MASONRY_GRID, 'grid-cols-2 gap-x-3 sm:gap-x-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-5 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7');
 /** Skeleton pins borrow a few real cover shapes so loading already reads as a wall. */
 const SKELETON_RATIOS = ['aspect-[4/3]', 'aspect-square', 'aspect-[16/9]', 'aspect-[3/2]', 'aspect-[4/5]', 'aspect-[16/10]'];
 

@@ -24,16 +24,20 @@
   </script>
 
   <script>
+    // GitHub Pages SPA fallback, part 2 (part 1 is public/404.html). 404.html rewrites an unknown deep link such as
+    //   /CurioPlay/dashboard?tab=games&focus=1   into   /CurioPlay/?/dashboard&tab=games~and~focus=1
+    // and this restores the real URL before the router starts. The single "&" that separates path from query becomes
+    // "?" again; every "&" that belonged to the query itself was escaped as "~and~" and is unescaped here.
     (function (l) {
       if (l.search[1] === "/") {
-        var decoded = l.search
+        var parts = l.search
           .slice(1)
-          .replace(/~and~/g, "&");
-
+          .split("&")
+          .map(function (s) { return s.replace(/~and~/g, "&"); });
         window.history.replaceState(
           null,
           null,
-          l.pathname.slice(0, -1) + decoded + l.hash
+          l.pathname.slice(0, -1) + parts.join("?") + l.hash
         );
       }
     })(window.location);

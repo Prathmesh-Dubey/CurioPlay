@@ -41,7 +41,7 @@ export function NavBar({ user, active, onNavigate, onOpenPalette, onLogout, onPr
   return (
     <header className="pt-safe sticky top-0 z-30 border-b border-line bg-canvas/85 backdrop-blur-xl">
       {/* Three columns from md up: logo | menus (true centre) | actions. Phones keep a simple row. */}
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-2 px-4 sm:px-6 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4 lg:px-10">
+      <div className="page-wrap flex h-16 items-center gap-2 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4">
         <button type="button" onClick={() => onNavigate('overview')} aria-label="CurioPlay overview" className="shrink-0 justify-self-start rounded-lg">
           <Logo />
         </button>

@@ -2,16 +2,18 @@
   "name": "curioplay-frontend",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://Prathmesh-Dubey.github.io/curioplay",
+  "homepage": "https://prathmesh-dubey.github.io/CurioPlay/",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:web && npm run build:android",
+    "build:web": "vite build",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "predeploy": "npm run build:web",
+    "deploy": "gh-pages -d dist --dotfiles",
     "lint": "node --max-old-space-size=4096 node_modules/typescript/bin/tsc --noEmit",
-    "build:android": "vite build --mode android"
+    "build:android": "vite build --mode android",
+    "android:sync": "vite build --mode android && cap sync android"
   },
   "dependencies": {
     "@babel/standalone": "^7.29.7",

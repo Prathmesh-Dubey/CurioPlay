@@ -150,7 +150,7 @@ export function LandingNav() {
           <ProgressiveBlur direction="top" blurIntensity={0.3} className="absolute inset-0 h-full" />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-3 sm:px-6">
+        <div className="page-wrap relative">
           <nav
             aria-label="Primary"
             className={cn(

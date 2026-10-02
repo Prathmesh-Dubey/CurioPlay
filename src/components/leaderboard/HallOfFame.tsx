@@ -50,7 +50,7 @@ export function HallOfFame({ ranks, loading, isError, onRetry, userMap, meId, on
     body = <EmptyPodium />;
   } else {
     body = (
-      <ol className="grid gap-2.5 px-5 pb-5 md:grid-cols-3 md:items-end md:gap-5 md:px-10 md:pb-0 md:pt-10 lg:px-16">
+      <ol className="mx-auto grid w-full max-w-5xl gap-2.5 px-5 pb-5 md:grid-cols-3 md:items-end md:gap-5 md:px-10 md:pb-0 md:pt-10 lg:px-16">
         {top3.map((r, i) => (
           <PodiumEntry
             key={r.userId}
@@ -209,7 +209,7 @@ function PodiumEntry({
 
 function PodiumSkeleton() {
   return (
-    <div className="px-5 pb-5 md:px-10 md:pb-0 md:pt-10 lg:px-16" aria-busy="true" aria-label="Loading the Hall of Fame">
+    <div className="mx-auto w-full max-w-5xl px-5 pb-5 md:px-10 md:pb-0 md:pt-10 lg:px-16" aria-busy="true" aria-label="Loading the Hall of Fame">
       <div className="space-y-2.5 md:hidden">
         {[0, 1, 2].map((i) => (
           <Skeleton key={i} className="h-[76px] rounded-2xl bg-white/10" />
@@ -232,7 +232,7 @@ function PodiumSkeleton() {
 /** Empty stage: three unclaimed plinths. */
 function EmptyPodium() {
   return (
-    <div className="px-5 pb-5 md:px-10 md:pb-0 md:pt-6 lg:px-16">
+    <div className="mx-auto w-full max-w-5xl px-5 pb-5 md:px-10 md:pb-0 md:pt-6 lg:px-16">
       <p className="mb-4 text-center text-sm text-white/70 md:mb-6">No one has scored yet. The podium is waiting for its first name.</p>
       <div className="hidden grid-cols-3 items-end gap-5 md:grid" aria-hidden="true">
         {([2, 1, 3] as Place[]).map((place) => (

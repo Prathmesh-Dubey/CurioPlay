@@ -77,15 +77,17 @@ function Plate({
   title,
   description,
   children,
+  className,
 }: {
   id: string;
   index: number;
   title: string;
   description?: string;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-20 lg:scroll-mt-8">
+    <section id={id} aria-labelledby={`${id}-title`} className={cn('min-w-0 scroll-mt-20 lg:scroll-mt-8', className)}>
       <header className="flex items-start gap-4 border-b border-line pb-4">
         <span className="label-mono mt-1.5 shrink-0 text-ink-faint">№ {pad2(index)}</span>
         <div className="min-w-0">
@@ -288,10 +290,11 @@ export default function SettingsView({ user, onUserChanged, onLogout }: Settings
     <div className="flex flex-col gap-8 lg:gap-12">
       <PageHeader eyebrow="Account" title="Settings" description="Your profile, appearance, preferences and account controls — nothing more than what actually works." />
 
-      <div className="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-14 xl:grid-cols-[15rem_minmax(0,1fr)]">
+      <div className="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-[clamp(2rem,1rem+2.5vw,4.5rem)] xl:grid-cols-[15rem_minmax(0,1fr)]">
         <SectionIndex active={active} onJump={jump} />
 
-        <div className="flex min-w-0 max-w-3xl flex-col gap-14">
+        {/* One column up to 2xl; from there the plates pair up (document order = reading order, so the index still tracks). */}
+        <div className="grid min-w-0 gap-x-[calc(var(--grid-gap)*2)] gap-y-14 2xl:grid-cols-2 2xl:items-start">
           {/* № 01 — Profile */}
           <Plate id="settings-profile" index={1} title="Profile" description="Everything other players see on your card. Your colours are under Personalisation.">
             <ProfileEditor user={user} onUserChanged={onUserChanged} />
@@ -309,6 +312,7 @@ export default function SettingsView({ user, onUserChanged, onLogout }: Settings
 
           {/* № 03 — Personalisation */}
           <Plate
+            className="2xl:col-span-2"
             id="settings-personalisation"
             index={3}
             title="Personalisation"

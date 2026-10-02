@@ -63,6 +63,30 @@
   --cp-ring: 0 0 0 3px rgb(96 165 250 / 0.5);
 }
 
+/* ============================================================
+   LAYOUT — fluid, not fixed. Every page wrapper uses .page-wrap, so the gutter grows with the viewport
+   (16px on a phone → ~54px at 1920) and content fills the screen. The cap is only a safety net for
+   ultra-wide monitors (2560px+), where line lengths and card sizes would otherwise run away.
+   ============================================================ */
+:root {
+  --page-gutter: clamp(1rem, 0.5rem + 2.4vw, 4.5rem);
+  --page-pad-y: clamp(1.25rem, 0.6rem + 1.6vw, 3rem);
+  --page-max: 160rem;
+  --grid-gap: clamp(0.75rem, 0.4rem + 0.9vw, 1.75rem);
+}
+
+@theme {
+  /* One step above Tailwind's 2xl (1536px): full-HD desktops. */
+  --breakpoint-3xl: 120rem;
+}
+
+@utility page-wrap {
+  width: 100%;
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
 @theme inline {
   --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;

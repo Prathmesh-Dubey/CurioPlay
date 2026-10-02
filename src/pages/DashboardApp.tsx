@@ -323,7 +323,7 @@ export default function DashboardApp() {
 
           <main id="main" ref={scrollRef} className="relative flex-1 overflow-y-auto overflow-x-hidden overscroll-contain">
             {/* Phones leave room for the floating dock. */}
-            <div className="mx-auto w-full max-w-7xl px-4 py-6 pb-32 sm:px-6 md:pb-12 lg:px-10 lg:py-10">
+            <div className="page-wrap py-[var(--page-pad-y)] pb-32 md:pb-[var(--page-pad-y)]">
               <TransitionPanel activeIndex={activeIndex} variants={pageTransition}>
                 {TAB_ORDER.map((id) => (
                   <Suspense key={id} fallback={<ViewFallback />}>

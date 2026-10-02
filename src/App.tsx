@@ -17,6 +17,13 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 
 const isNative = Capacitor.isNativePlatform();
 
+/**
+ * The router's basename is the build's own base path, so routing can never disagree with where assets load from:
+ * '/CurioPlay' on GitHub Pages, '/' for the dev server, and '/' inside the Android app (its base is './', which
+ * is not a URL prefix).
+ */
+const basename = !isNative && import.meta.env.BASE_URL.startsWith('/') ? import.meta.env.BASE_URL.replace(/\/+$/, '') || '/' : '/';
+
 function RouteFallback() {
   return <CurioLoader fullscreen />;
 }
@@ -33,8 +40,7 @@ const router = createBrowserRouter(
     { path: '*', element: withSuspense(<NotFound />) },
   ],
   {
-    // GitHub Pages serves under /curioplay; Capacitor serves from the root.
-    basename: isNative ? '/' : '/curioplay',
+    basename,
   },
 );
 

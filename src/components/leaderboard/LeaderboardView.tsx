@@ -123,52 +123,55 @@ export default function LeaderboardView({ user, onViewProfile, onOpenExperience 
         description="Who leads the collection, and where you stand in every game."
       />
 
-      <HallOfFame
-        ranks={globalRanks}
-        loading={globalQ.isLoading}
-        isError={globalQ.isError}
-        onRetry={() => globalQ.refetch()}
-        userMap={userMap}
-        meId={user.id}
-        onViewProfile={onViewProfile}
-      />
+      {/* Side by side from 2xl: podium left, the per-game table right (a table stretched across 1800px is unreadable). */}
+      <div className="grid gap-8 lg:gap-10 2xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] 2xl:items-start 2xl:gap-[var(--grid-gap)]">
+        <HallOfFame
+          ranks={globalRanks}
+          loading={globalQ.isLoading}
+          isError={globalQ.isError}
+          onRetry={() => globalQ.refetch()}
+          userMap={userMap}
+          meId={user.id}
+          onViewProfile={onViewProfile}
+        />
 
-      <section aria-labelledby="board-title" className="flex flex-col gap-5">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="min-w-0">
-            <Eyebrow>By game</Eyebrow>
-            {gamesQ.isLoading ? (
-              <Skeleton className="mt-3 h-9 w-56" />
-            ) : (
-              <h2 id="board-title" className="mt-3 truncate font-semiwide text-[1.75rem] font-extrabold leading-tight text-ink sm:text-[2rem]">
-                {current ? current.title : 'Game rankings'}
-              </h2>
+        <section aria-labelledby="board-title" className="flex flex-col gap-5">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="min-w-0">
+              <Eyebrow>By game</Eyebrow>
+              {gamesQ.isLoading ? (
+                <Skeleton className="mt-3 h-9 w-56" />
+              ) : (
+                <h2 id="board-title" className="mt-3 truncate font-semiwide text-[1.75rem] font-extrabold leading-tight text-ink sm:text-[2rem]">
+                  {current ? current.title : 'Game rankings'}
+                </h2>
+              )}
+            </div>
+
+            {current && (
+              <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
+                <Select
+                  ariaLabel="Choose a game to rank"
+                  value={selectedId}
+                  onChange={setSelected}
+                  options={options}
+                  leading={<Gamepad2 className="size-4" />}
+                  className="min-w-0 sm:w-72"
+                />
+                <Button
+                  className="shrink-0"
+                  leadingIcon={<Play className="size-4" />}
+                  onClick={() => onOpenExperience(current.id, current.kind)}
+                >
+                  Play this
+                </Button>
+              </div>
             )}
           </div>
 
-          {current && (
-            <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
-              <Select
-                ariaLabel="Choose a game to rank"
-                value={selectedId}
-                onChange={setSelected}
-                options={options}
-                leading={<Gamepad2 className="size-4" />}
-                className="min-w-0 sm:w-72"
-              />
-              <Button
-                className="shrink-0"
-                leadingIcon={<Play className="size-4" />}
-                onClick={() => onOpenExperience(current.id, current.kind)}
-              >
-                Play this
-              </Button>
-            </div>
-          )}
-        </div>
-
-        {board}
-      </section>
+          {board}
+        </section>
+      </div>
     </div>
   );
 }

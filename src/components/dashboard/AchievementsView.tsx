@@ -248,7 +248,7 @@ export default function AchievementsView({ user }: AchievementsViewProps) {
                 />
               )
             ) : (
-              <ul className="relative grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 2xl:grid-cols-4">
+              <ul className="relative grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
                 <AnimatePresence mode="popLayout">
                   {visible.map((e, i) => (
                     <motion.li
@@ -645,7 +645,7 @@ function CabinetSkeleton() {
         <Skeleton className="h-12 w-72 max-w-full rounded-full" />
         <Skeleton className="h-11 w-full sm:w-56" />
       </div>
-      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 2xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5">
         {Array.from({ length: 6 }, (_, i) => (
           <div key={i} className="flex items-center gap-4 rounded-[20px] border border-line bg-surface p-4 sm:flex-col sm:p-5">
             <Skeleton className="size-14 shrink-0 rounded-full sm:mt-6 sm:size-24" />

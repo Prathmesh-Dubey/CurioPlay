@@ -4,7 +4,7 @@
 
 > Learn it. Play it. Experience it.
 
-Live: https://prathmesh-dubey.github.io/curioplay/
+Live: https://prathmesh-dubey.github.io/CurioPlay/
 
 ## What's inside
 
@@ -53,18 +53,38 @@ src/
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173/curioplay/
-npm run lint       # type-check
-npm run build
-npm run deploy     # GitHub Pages (base path /curioplay/)
+npm run dev          # http://localhost:5173/            (dev server, base "/")
+npm run lint         # type-check
+npm run build        # builds BOTH targets: dist/ (web) and dist-android/ (Android)
+npm run preview      # serves dist/ the way GitHub Pages will: http://localhost:4173/CurioPlay/
+npm run deploy       # builds the web target and publishes dist/ to the gh-pages branch
 ```
+
+### One codebase, three base paths
+
+`vite.config.ts` decides the base path in one place, and the router's basename follows it (`import.meta.env.BASE_URL`):
+
+| Target | Command | Base | Output |
+| --- | --- | --- | --- |
+| GitHub Pages | `npm run build:web` / `npm run deploy` | `/CurioPlay/` | `dist/` |
+| Android (Capacitor) | `npm run build:android` / `npm run android:sync` | `./` | `dist-android/` |
+| Local dev | `npm run dev` | `/` | — |
+
+GitHub Pages paths are **case-sensitive**: the base must match the repository name exactly (`CurioPlay`). If the repository is ever renamed or forked, build with `VITE_BASE_PATH=/NewName/ npm run build:web` (or change `REPO` in `vite.config.ts`).
+
+Deep links and refreshes work on GitHub Pages through `public/404.html` + the restore script in `index.html` (the standard SPA fallback for project sites). `public/.nojekyll` keeps GitHub from processing the files.
 
 ### Android
 
+Capacitor's `webDir` is `dist-android`, which holds a separate build with relative asset paths. The web build (`dist/`) is never packaged into the app.
+
 ```bash
-npm run build:android   # relative asset paths for the WebView
-npx cap sync android
+npm run build           # web + android bundles
+npx cap sync android    # copies dist-android/ into the Android project
 npx cap open android
+
+# or in one step, Android only:
+npm run android:sync
 ```
 
 Launcher icons and splash screens are generated from `resources/` with `npx @capacitor/assets generate --android`.

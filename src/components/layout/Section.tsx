@@ -5,7 +5,7 @@ import { ease } from '@/lib/motion';
 import { Eyebrow } from '@/components/ui/Decor';
 
 export function Container({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('mx-auto w-full max-w-7xl px-5 sm:px-8', className)} {...rest} />;
+  return <div className={cn('page-wrap', className)} {...rest} />;
 }
 
 /**

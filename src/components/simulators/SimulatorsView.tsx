@@ -57,7 +57,7 @@ const ALL = 'All';
  * Masonry bench. It sits beside the field index from lg, so it is narrower than the page: two columns on phones,
  * three from md, four from xl.
  */
-const BENCH_GRID = cn(MASONRY_GRID, 'grid-cols-2 gap-x-3 sm:gap-x-4 md:grid-cols-3 xl:grid-cols-4 xl:gap-x-5');
+const BENCH_GRID = cn(MASONRY_GRID, 'grid-cols-2 gap-x-3 sm:gap-x-4 md:grid-cols-3 xl:grid-cols-4 xl:gap-x-5 2xl:grid-cols-5 3xl:grid-cols-6');
 /** Prefix of the session id used when the server could not open a session. */
 const LOCAL_SESSION = 'sim-session-';
 
