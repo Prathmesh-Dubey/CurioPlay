@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { userApi, type Game, type Simulator } from '@/api/api';
+import type { Game, Simulator } from '@/api/api';
+import { fetchUserDirectory } from '@/lib/cache/catalog';
+import { TTL } from '@/lib/cache/policy';
 import { useGames, useSimulators } from '@/hooks';
 
 export interface CatalogItem {
@@ -29,8 +31,8 @@ export function useCatalog() {
   const sims = useSimulators();
   const users = useQuery({
     queryKey: ['users', 'all'],
-    queryFn: () => userApi.getAll(),
-    staleTime: 60 * 60 * 1000,
+    queryFn: fetchUserDirectory,
+    staleTime: TTL.directory,
   });
 
   const data = useMemo(() => {

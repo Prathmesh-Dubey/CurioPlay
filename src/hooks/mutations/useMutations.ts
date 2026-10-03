@@ -13,6 +13,7 @@ import {
   type ScoreRequest,
   type SimulatorRequest,
 } from '../../api/api';
+import { evictExperienceCode } from '../../lib/cache/catalog';
 
 export const useCreateGame = () => {
   const queryClient = useQueryClient();
@@ -31,6 +32,7 @@ export const useUpdateGame = () => {
     mutationFn: ({ id, data }: { id: string; data: Partial<GameRequest> }) => 
       gameApi.update(id, data),
     onSuccess: (_, { id }) => {
+      evictExperienceCode('game', id);
       queryClient.invalidateQueries({ queryKey: queryKeys.games.detail(id) });
       queryClient.invalidateQueries({ queryKey: queryKeys.games.lists() });
     },
@@ -41,7 +43,8 @@ export const useDeleteGame = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => gameApi.delete(id),
-    onSuccess: () => {
+    onSuccess: (_, id) => {
+      evictExperienceCode('game', id);
       queryClient.invalidateQueries({ queryKey: queryKeys.games.lists() });
       queryClient.invalidateQueries({ queryKey: queryKeys.simulators.lists() });
       queryClient.invalidateQueries({ queryKey: queryKeys.scores.leaderboard.all });
@@ -65,6 +68,7 @@ export const useUpdateSimulator = () => {
     mutationFn: ({ id, data }: { id: string; data: Partial<SimulatorRequest> }) => 
       simulatorApi.update(id, data),
     onSuccess: (_, { id }) => {
+      evictExperienceCode('simulator', id);
       queryClient.invalidateQueries({ queryKey: queryKeys.simulators.detail(id) });
       queryClient.invalidateQueries({ queryKey: queryKeys.simulators.lists() });
     },

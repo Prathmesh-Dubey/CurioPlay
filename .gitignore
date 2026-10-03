@@ -1,4 +1,5 @@
 node_modules/
+src/data/catalog-snapshot.json
 build/
 dist/
 dist-android/

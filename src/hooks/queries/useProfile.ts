@@ -3,7 +3,9 @@ import { useQuery, useQueries } from '@tanstack/react-query';
 import { queryKeys } from '../../lib/queryKeys';
 import { profileApi } from '../../api/api';
 
-import { userApi, type User } from '../../api/api';
+import type { User } from '../../api/api';
+import { fetchUserDirectory } from '../../lib/cache/catalog';
+import { TTL } from '../../lib/cache/policy';
 
 export const useProfile = (userId: string) => {
   return useQuery({
@@ -17,8 +19,8 @@ export const useProfile = (userId: string) => {
 export const useUser = (userId: string) => {
   const { data: allUsers = [], isLoading, error } = useQuery({
     queryKey: ['users', 'all'],
-    queryFn: () => userApi.getAll(),
-    staleTime: 60 * 60 * 1000, // 1 hour
+    queryFn: fetchUserDirectory,
+    staleTime: TTL.directory,
     enabled: !!userId,
   });
 
@@ -32,8 +34,8 @@ export const useUser = (userId: string) => {
 export const useUsers = (userIds: string[]) => {
   const { data: allUsers = [], isLoading, error } = useQuery({
     queryKey: ['users', 'all'],
-    queryFn: () => userApi.getAll(),
-    staleTime: 60 * 60 * 1000, // 1 hour
+    queryFn: fetchUserDirectory,
+    staleTime: TTL.directory,
     enabled: userIds.length > 0,
   });
 

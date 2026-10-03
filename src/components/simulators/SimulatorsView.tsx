@@ -18,6 +18,7 @@ import {
   type Simulator,
   type User,
 } from '@/api/api';
+import { evictExperienceCode, getExperienceCode } from '@/lib/cache/catalog';
 import { useSimulators } from '@/hooks';
 import { useDebounce } from '@/hooks/useDebounce';
 import { queryKeys } from '@/lib/queryKeys';
@@ -172,7 +173,7 @@ export default function SimulatorsView({
         let code = sim.simulatorCode || sim.gameCode || null;
         if (!code) {
           try {
-            code = await simulatorApi.getCode(sim.id);
+            code = await getExperienceCode('simulator', sim.id, sim.updatedAt);
           } catch (e) {
             console.error('Failed to fetch simulator code:', e);
           }
@@ -253,6 +254,7 @@ export default function SimulatorsView({
       setDeletingId(s.id);
       try {
         await simulatorApi.delete(s.id);
+        evictExperienceCode('simulator', s.id);
         queryClient.invalidateQueries({ queryKey: queryKeys.simulators.lists() });
         queryClient.invalidateQueries({ queryKey: queryKeys.simulators.all });
         toast.success('Simulator deleted', s.title);

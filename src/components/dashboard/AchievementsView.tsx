@@ -11,7 +11,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useQuery } from '@tanstack/react-query';
 import { Award, Lock, Target, Trophy } from 'lucide-react';
-import { userAchievementApi, userApi, type Achievement, type Score, type User } from '@/api/api';
+import { userAchievementApi, type Achievement, type Score, type User } from '@/api/api';
+import { fetchUserDirectory } from '@/lib/cache/catalog';
+import { TTL } from '@/lib/cache/policy';
 import { useAchievements, useUserAchievements, useUserScores } from '@/hooks';
 import { queryKeys } from '@/lib/queryKeys';
 import { dur, ease, spring, stagger } from '@/lib/motion';
@@ -527,8 +529,8 @@ function SpecimenRecord({ e, best, open }: { e: Entry; best: Score | null; open:
   });
   const usersQ = useQuery({
     queryKey: ['users', 'all'],
-    queryFn: () => userApi.getAll(),
-    staleTime: 60 * 60 * 1000,
+    queryFn: fetchUserDirectory,
+    staleTime: TTL.directory,
     enabled: open,
   });
   const holders = holdersQ.data?.length;

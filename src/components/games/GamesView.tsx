@@ -20,6 +20,7 @@ import {
   type User,
   type UserAchievement,
 } from '@/api/api';
+import { evictExperienceCode, getExperienceCode } from '@/lib/cache/catalog';
 import { useGames } from '@/hooks';
 import { useDebounce } from '@/hooks/useDebounce';
 import { queryKeys } from '@/lib/queryKeys';
@@ -327,7 +328,7 @@ export default function GamesView({
 
         let code = game.gameCode || null;
         if (game.isDynamic && !code) {
-          code = await gameApi.getCode(game.id);
+          code = await getExperienceCode('game', game.id, game.updatedAt);
         }
         if (token !== tokenRef.current) return;
         setRunning({ game, code, loading: false, origin });
@@ -422,6 +423,7 @@ export default function GamesView({
       if (!ok) return;
       try {
         await gameApi.delete(g.id);
+        evictExperienceCode('game', g.id);
         queryClient.invalidateQueries({ queryKey: queryKeys.games.lists() });
         toast.success('Game deleted', g.title);
       } catch (err) {

@@ -2,7 +2,10 @@ import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState, type
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import type { User } from '@/api/api';
-import { gameApi, scoreApi, simulatorApi } from '@/api/api';
+import { scoreApi } from '@/api/api';
+import { fetchGames, fetchSimulators } from '@/lib/cache/catalog';
+import { clearUserScopedCache } from '@/lib/cache/persist';
+import { TTL } from '@/lib/cache/policy';
 import { queryKeys } from '@/lib/queryKeys';
 import { NotificationProvider } from '@/context/NotificationContext';
 import { FeedbackProvider } from '@/components/ui/Feedback';
@@ -131,8 +134,9 @@ export default function DashboardApp() {
   // Warm the caches for the heaviest lists as soon as the dashboard opens.
   useEffect(() => {
     if (!user) return;
-    queryClient.prefetchQuery({ queryKey: queryKeys.games.list(), queryFn: gameApi.getAll });
-    queryClient.prefetchQuery({ queryKey: queryKeys.simulators.list(), queryFn: simulatorApi.getAll });
+    // Same fetchers + TTL as the hooks, so a prefetch can never pull the heavy list a second time.
+    queryClient.prefetchQuery({ queryKey: queryKeys.games.list(), queryFn: fetchGames, staleTime: TTL.catalog });
+    queryClient.prefetchQuery({ queryKey: queryKeys.simulators.list(), queryFn: fetchSimulators, staleTime: TTL.catalog });
     queryClient.prefetchQuery({ queryKey: queryKeys.scores.leaderboard.global, queryFn: scoreApi.getGlobalLeaderboard });
   }, [queryClient, user]);
 
@@ -155,7 +159,7 @@ export default function DashboardApp() {
   const prefetch = useCallback(
     (t: TabId) => {
       if (t === 'simulators')
-        queryClient.prefetchQuery({ queryKey: queryKeys.simulators.list(), queryFn: simulatorApi.getAll, staleTime: 5 * 60 * 1000 });
+        queryClient.prefetchQuery({ queryKey: queryKeys.simulators.list(), queryFn: fetchSimulators, staleTime: TTL.catalog });
       if (t === 'leaderboard')
         queryClient.prefetchQuery({
           queryKey: queryKeys.scores.leaderboard.global,
@@ -177,7 +181,7 @@ export default function DashboardApp() {
   const handleLogout = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem('activeTab');
-    queryClient.clear();
+    clearUserScopedCache(queryClient); // scores, sessions, profile… go; the public catalog stays cached
     setUser(null);
     navigate('/', { replace: true });
   }, [navigate, queryClient]);
