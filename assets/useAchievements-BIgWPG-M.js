@@ -1,0 +1,1 @@
+import{u as s}from"./query-Dr_DsP84.js";import{b6 as r,t,ap as a}from"./index-Dq6UKge_.js";const u=()=>s({queryKey:t.achievements.list(),queryFn:()=>r.getAll(),staleTime:3600*1e3}),m=e=>s({queryKey:t.achievements.user.detail(e),queryFn:()=>a.getByUser(e),staleTime:3600*1e3,enabled:!!e});export{m as a,u};
