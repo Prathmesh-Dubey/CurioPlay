@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Gamepad2, Play } from 'lucide-react';
 import { Container, SectionHeading } from '@/components/layout/Section';
+import { gamepadAnchor } from './gamepad/gamepadStore';
 import { buttonClasses } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -136,8 +137,14 @@ export function Exhibits() {
   return (
     <section id="games" className="scroll-mt-24 pb-24 sm:pb-32">
       <Container>
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+        <div className="relative mb-12 flex flex-wrap items-end justify-between gap-6">
           <SectionHeading index="02" eyebrow="The exhibit hall · Games" title="Play something worth remembering." />
+          {/* 3D controller waypoint (desktop) */}
+          <div
+            aria-hidden="true"
+            {...gamepadAnchor('games', 2, 'hoverLeft')}
+            className="pointer-events-none absolute right-52 top-1/2 hidden aspect-[4/3] w-[clamp(180px,15vw,250px)] -translate-y-1/2 xl:block"
+          />
           <Link to={entryPath()} className={buttonClasses('outline', 'md')}>
             Open the arcade <ArrowRight data-icon="trailing" className="size-4" />
           </Link>

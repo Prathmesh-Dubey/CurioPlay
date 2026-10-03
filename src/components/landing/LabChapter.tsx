@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, type MotionValue } from 'motion/react';
 import { ArrowRight, FlaskConical } from 'lucide-react';
 import { Container, SectionHeading } from '@/components/layout/Section';
+import { gamepadAnchor } from './gamepad/gamepadStore';
 import { buttonClasses } from '@/components/ui/Button';
 import { CornerTicks } from '@/components/ui/Decor';
 import { Thumb } from '@/components/ui/Thumb';
@@ -109,7 +110,13 @@ export function LabChapter() {
         <div className="pointer-events-none absolute -right-32 top-0 -z-10 size-[520px] rounded-full bg-brand/30 blur-3xl" />
 
         <Container>
-          <div className="flex flex-wrap items-end justify-between gap-6">
+          <div className="relative flex flex-wrap items-end justify-between gap-6">
+            {/* 3D controller waypoint (desktop) */}
+            <div
+              aria-hidden="true"
+              {...gamepadAnchor('lab', 3, 'restLeft')}
+              className="pointer-events-none absolute right-48 top-1/2 hidden aspect-[4/3] w-[clamp(180px,15vw,240px)] -translate-y-1/2 xl:block"
+            />
             <SectionHeading
               night
               index="03"

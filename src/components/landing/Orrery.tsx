@@ -15,6 +15,7 @@ import { LogoMark } from '@/components/ui/Logo';
 import { Thumb } from '@/components/ui/Thumb';
 import { useCatalog } from '@/hooks/useCatalog';
 import { cn } from '@/lib/utils';
+import { gamepadAnchor, useGamepadStatus } from './gamepad/gamepadStore';
 
 /*
  * The Orrery — the hero's living diagram of the collection.
@@ -24,9 +25,9 @@ import { cn } from '@/lib/utils';
  */
 
 const ORBITS = [
-  { rx: 0.47, ry: 0.235, speed: 0.07, dir: 1, tilt: -12 },
-  { rx: 0.34, ry: 0.17, speed: 0.1, dir: -1, tilt: 9 },
-  { rx: 0.215, ry: 0.11, speed: 0.15, dir: 1, tilt: -4 },
+  { rx: 0.47, ry: 0.33, speed: 0.07, dir: 1, tilt: -12 },
+  { rx: 0.35, ry: 0.245, speed: 0.1, dir: -1, tilt: 9 },
+  { rx: 0.23, ry: 0.16, speed: 0.15, dir: 1, tilt: -4 },
 ];
 
 interface SatelliteSpec {
@@ -43,11 +44,13 @@ function Satellite({
   spec,
   time,
   size,
+  boost,
   onHover,
 }: {
   spec: SatelliteSpec;
   time: MotionValue<number>;
   size: number;
+  boost: number;
   onHover: (h: boolean) => void;
 }) {
   const o = ORBITS[spec.orbit];
@@ -84,6 +87,7 @@ function Satellite({
       <motion.div
         whileHover={{ y: -4, scale: 1.04 }}
         transition={{ type: 'spring', stiffness: 400, damping: 24 }}
+        style={{ zoom: boost }}
         className="group rounded-2xl border border-line bg-surface/95 p-2.5 shadow-float backdrop-blur-sm transition-colors hover:border-brand/50"
       >
         {spec.content}
@@ -102,12 +106,13 @@ function MiniWave() {
 
 export function Orrery({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState(520);
+  const [size, setSize] = useState(640);
   const [paused, setPaused] = useState(false);
   const reduce = useReducedMotion();
   const inView = useInView(ref, { margin: '0px 0px -10% 0px' });
   const time = useMotionValue(0);
   const { games, simulators, isLoading } = useCatalog();
+  const gamepad = useGamepadStatus();
   const cover = games.find((g) => g.thumbnail)?.thumbnail;
 
   // pointer tilt (desktop)
@@ -218,7 +223,7 @@ export function Orrery({ className }: { className?: string }) {
 
   return (
     <div
-      className={cn('relative mx-auto aspect-square w-full max-w-[580px] select-none', className)}
+      className={cn('relative mx-auto aspect-square w-full max-w-[760px] select-none', className)}
       onPointerMove={(e) => {
         if (e.pointerType !== 'mouse') return;
         const r = e.currentTarget.getBoundingClientRect();
@@ -239,7 +244,7 @@ export function Orrery({ className }: { className?: string }) {
               <stop offset="100%" stopColor="var(--cp-brand)" stopOpacity="0" />
             </radialGradient>
           </defs>
-          <circle cx="50" cy="50" r="40" fill="url(#orrery-halo)" />
+          <circle cx="50" cy="50" r="50" fill="url(#orrery-halo)" />
           {ORBITS.map((o, i) => (
             <ellipse
               key={i}
@@ -268,19 +273,27 @@ export function Orrery({ className }: { className?: string }) {
           })}
         </svg>
 
-        {/* the sun: CurioPlay mark */}
-        <div className="absolute left-1/2 top-1/2 z-20 grid size-[24%] -translate-x-1/2 -translate-y-1/2 place-items-center">
+        {/* the sun: the 3D controller floats here (data-gamepad-anchor); the flat mark is its loading state + fallback */}
+        <div
+          {...gamepadAnchor('hero', 0, 'hero')}
+          className="absolute left-1/2 top-1/2 z-20 grid size-[30%] -translate-x-1/2 -translate-y-1/2 place-items-center"
+        >
           <motion.div
             aria-hidden="true"
             className="absolute inset-[-28%] rounded-full bg-brand/15 blur-2xl"
             animate={reduce ? undefined : { scale: [0.9, 1.08, 0.9], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
           />
-          <LogoMark className="relative size-[125%] max-w-none drop-shadow-xl" />
+          <LogoMark
+            className={cn(
+              'relative size-[125%] max-w-none drop-shadow-xl transition-[opacity,scale] duration-700 ease-out',
+              gamepad === 'ready' && 'scale-90 opacity-0',
+            )}
+          />
         </div>
 
         {satellites.map((s) => (
-          <Satellite key={s.key} spec={s} time={time} size={size} onHover={setPaused} />
+          <Satellite key={s.key} spec={s} time={time} size={size} boost={Math.min(1.45, Math.max(0.8, size / 460))} onHover={setPaused} />
         ))}
       </motion.div>
 

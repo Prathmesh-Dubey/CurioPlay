@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, LayoutGroup, motion, useInView, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react';
 import { Award, FlaskConical, Gamepad2, Search, Trophy } from 'lucide-react';
 import { Container, SectionHeading } from '@/components/layout/Section';
+import { gamepadAnchor } from './gamepad/gamepadStore';
 import { SlidingNumber } from '@/components/motion/sliding-number';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ease, spring } from '@/lib/motion';
@@ -219,7 +220,7 @@ export function HowItWorks() {
 
   return (
     <section id="how" ref={ref} className="relative scroll-mt-24 lg:h-[300vh]">
-      <div className="py-24 sm:py-32 lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center lg:py-0">
+      <div className="py-24 sm:py-32 lg:sticky lg:top-0 lg:flex lg:h-screen lg:items-center lg:py-0" data-gamepad-sticky>
         <Container className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <SectionHeading index="05" eyebrow="How it works" size="title" title="From curious to hands-on in three moves." />
@@ -282,6 +283,12 @@ export function HowItWorks() {
           <div className="lg:col-span-7">
             <div className="relative aspect-[4/3.4] w-full sm:aspect-[4/3]">
               <div className="pointer-events-none absolute -inset-8 -z-10 rounded-[40px] bg-rose-soft/70 blur-2xl" />
+              {/* 3D controller waypoint (desktop): perched on the window's top edge */}
+              <div
+                aria-hidden="true"
+                {...gamepadAnchor('how', 5, 'perch')}
+                className="pointer-events-none absolute -top-24 right-10 hidden h-32 w-[clamp(170px,14vw,230px)] lg:block"
+              />
               <MiniApp step={step} />
             </div>
             <p className="label-mono mt-4 text-center text-ink-faint">

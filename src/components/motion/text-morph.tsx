@@ -5,7 +5,7 @@ import { useMemo, useId } from 'react';
 
 export type TextMorphProps = {
   children: string;
-  as?: React.ElementType;
+  as?: keyof HTMLElementTagNameMap;
   className?: string;
   style?: React.CSSProperties;
   variants?: Variants;

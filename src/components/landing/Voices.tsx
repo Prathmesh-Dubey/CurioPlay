@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Code2, LayoutTemplate } from 'lucide-react';
 import { Container, SectionHeading } from '@/components/layout/Section';
+import { gamepadAnchor } from './gamepad/gamepadStore';
 import { RevealGroup, RevealItem } from '@/components/motion/reveal';
 import { Avatar } from '@/components/ui/Avatar';
 import { ease } from '@/lib/motion';
@@ -54,7 +55,15 @@ export function Voices() {
   return (
     <section id="about" className="scroll-mt-24 py-24 sm:py-32">
       <Container>
-        <SectionHeading index="06" eyebrow="Field notes" title="Made for students, educators and builders." />
+        <div className="relative">
+          <SectionHeading index="06" eyebrow="Field notes" title="Made for students, educators and builders." />
+          {/* 3D controller waypoint (desktop) */}
+          <div
+            aria-hidden="true"
+            {...gamepadAnchor('voices', 6, 'hoverLeft')}
+            className="pointer-events-none absolute right-[8%] top-1/2 hidden aspect-[4/3] w-[clamp(200px,16vw,260px)] -translate-y-1/2 xl:block"
+          />
+        </div>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-9">

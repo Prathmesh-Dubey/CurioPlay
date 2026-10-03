@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } 
 import { AnimatePresence, LayoutGroup, motion, useInView, useReducedMotion } from 'motion/react';
 import { Award, Check, Code2, Gamepad2, MousePointer2, Play, Trophy } from 'lucide-react';
 import { Container, SectionHeading } from '@/components/layout/Section';
+import { gamepadAnchor } from './gamepad/gamepadStore';
 import { SlidingNumber } from '@/components/motion/sliding-number';
 import { RevealGroup, RevealItem } from '@/components/motion/reveal';
 import { ease, spring } from '@/lib/motion';
@@ -348,12 +349,20 @@ export function Capabilities() {
   return (
     <section id="features" className="scroll-mt-24 py-24 sm:py-32">
       <Container>
-        <SectionHeading
-          index="04"
-          eyebrow="Capabilities"
-          title="Don’t read about it. Watch it work."
-          description="Everything in CurioPlay is built to be touched — here’s what that looks like."
-        />
+        <div className="relative">
+          <SectionHeading
+            index="04"
+            eyebrow="Capabilities"
+            title="Don’t read about it. Watch it work."
+            description="Everything in CurioPlay is built to be touched — here’s what that looks like."
+          />
+          {/* 3D controller waypoint (desktop) */}
+          <div
+            aria-hidden="true"
+            {...gamepadAnchor('features', 4, 'hoverLeft')}
+            className="pointer-events-none absolute right-[8%] top-1/2 hidden aspect-[4/3] w-[clamp(200px,17vw,270px)] -translate-y-1/2 xl:block"
+          />
+        </div>
         <RevealGroup className="mt-14 grid gap-5 lg:grid-cols-12" stagger={0.07}>
           <Tile
             className="lg:col-span-7 lg:row-span-2"

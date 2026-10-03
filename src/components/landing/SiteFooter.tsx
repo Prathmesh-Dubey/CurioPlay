@@ -4,6 +4,7 @@ import { ArrowUp, Github, Mail } from 'lucide-react';
 import { Container } from '@/components/layout/Section';
 import { Logo } from '@/components/ui/Logo';
 import { ease } from '@/lib/motion';
+import { gamepadAnchor } from './gamepad/gamepadStore';
 
 /*
  * Colophon. Night surface, link columns with drawn underlines, and the wordmark set huge
@@ -121,6 +122,11 @@ export function SiteFooter() {
       </Container>
 
       <div className="relative mt-10 overflow-hidden" aria-hidden="true">
+        {/* 3D controller finale: it touches down here as the scroll ends */}
+        <div
+          {...gamepadAnchor('footer', 8, 'finale')}
+          className="pointer-events-none absolute bottom-[18%] left-1/2 aspect-[4/3] w-[clamp(170px,24vw,330px)] -translate-x-1/2"
+        />
         <motion.p
           initial={{ y: '45%', opacity: 0 }}
           whileInView={{ y: '18%', opacity: 1 }}

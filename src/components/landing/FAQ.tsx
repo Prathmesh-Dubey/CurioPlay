@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Mail } from 'lucide-react';
 import { Container, SectionHeading } from '@/components/layout/Section';
+import { gamepadAnchor } from './gamepad/gamepadStore';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/motion/accordion';
 import { cn } from '@/lib/utils';
 
@@ -49,7 +50,7 @@ export function FAQ() {
     <section id="faq" className="scroll-mt-24 border-t border-line py-24 sm:py-32">
       <Container className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <div className="lg:sticky lg:top-32">
+          <div className="lg:sticky lg:top-32" data-gamepad-sticky>
             <SectionHeading index="07" eyebrow="Questions" size="title" title="Good questions." />
             <a
               href="mailto:prathmdubey217@gmail.com"
@@ -63,6 +64,8 @@ export function FAQ() {
                 <span className="link-underline mt-1 inline-block text-sm text-ink-muted">Write to the team</span>
               </span>
             </a>
+            {/* 3D controller waypoint (desktop) */}
+            <div aria-hidden="true" {...gamepadAnchor('faq', 7, 'restRight')} className="mt-12 hidden aspect-[4/3] w-60 lg:block" />
           </div>
         </div>
 

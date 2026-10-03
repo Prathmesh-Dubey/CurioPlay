@@ -16,7 +16,7 @@ export type InViewProps = {
   };
   transition?: Transition;
   viewOptions?: UseInViewOptions;
-  as?: React.ElementType;
+  as?: keyof HTMLElementTagNameMap;
   once?: boolean
 };
 
@@ -38,7 +38,7 @@ export function InView({
 
   const [isViewed, setIsViewed] = useState(false)
 
-  const MotionComponent = motion[as as keyof typeof motion] as typeof as;
+  const MotionComponent = motion[as as keyof typeof motion] as typeof motion.div;
 
   return (
     <MotionComponent

@@ -149,13 +149,13 @@ export function Hero() {
           </motion.div>
 
           <motion.div
-            className="lg:col-span-6"
+            className="lg:col-span-6 lg:-mr-10 xl:-mr-24"
             style={{ scale: orreryScale, rotate: orreryRotate }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.1, ease: ease.out, delay: 0.2 }}
           >
-            <Orrery className="max-w-[420px] sm:max-w-[560px]" />
+            <Orrery className="max-w-[440px] sm:max-w-[620px] lg:max-w-[700px] xl:max-w-[780px]" />
           </motion.div>
         </div>
 

@@ -8,6 +8,8 @@ import { AnimatedNumber } from '@/components/motion/animated-number';
 import { RevealGroup, RevealItem } from '@/components/motion/reveal';
 import { useCatalog } from '@/hooks/useCatalog';
 import { ease } from '@/lib/motion';
+import { cn } from '@/lib/utils';
+import { gamepadAnchor, useGamepadStatus } from './gamepad/gamepadStore';
 
 /*
  * № 01 — The collection. A museum catalogue index instead of "stat cards":
@@ -64,6 +66,9 @@ export function Collection() {
   const { games, simulators, explorers, isLoading, usersLoading } = useCatalog();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-15% 0px' });
+  // when the 3D controller is in play the orbit decor is its landing slot — on phones too
+  const gamepad = useGamepadStatus();
+  const landing = gamepad === 'loading' || gamepad === 'ready';
 
   const fields = useMemo(() => {
     const set = new Set<string>();
@@ -82,7 +87,7 @@ export function Collection() {
     <section id="explore" className="relative scroll-mt-24 py-24 sm:py-32">
       <Container className="grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="relative lg:col-span-5">
-          <div className="lg:sticky lg:top-32">
+          <div className="lg:sticky lg:top-32" data-gamepad-sticky>
             <SectionHeading
               index="01"
               eyebrow="The collection"
@@ -99,7 +104,8 @@ export function Collection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, ease: ease.out }}
-              className="mt-10 hidden w-64 lg:block"
+              {...gamepadAnchor('collection', 1, 'restRight')}
+              className={cn('mt-10 w-64', landing ? 'mx-auto block w-56 sm:w-64 lg:mx-0' : 'hidden lg:block')}
             >
               <OrbitLines className="w-full" />
             </motion.div>

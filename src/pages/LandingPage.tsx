@@ -11,6 +11,7 @@ import { Voices } from '@/components/landing/Voices';
 import { FAQ } from '@/components/landing/FAQ';
 import { FinalCTA } from '@/components/landing/FinalCTA';
 import { SiteFooter } from '@/components/landing/SiteFooter';
+import { GamepadStage } from '@/components/landing/gamepad/GamepadStage';
 
 /*
  * The landing page reads like a field guide, in numbered chapters:
@@ -33,6 +34,8 @@ export default function LandingPage() {
         Skip to content
       </a>
       <LandingNav />
+      {/* the 3D controller: floats in the hero, falls with the scroll, lands in chapter 01 */}
+      <GamepadStage />
       <main>
         <Hero />
         <Collection />
